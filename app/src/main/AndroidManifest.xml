@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-feature android:name="android.hardware.camera2.full" android:required="true" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -15,14 +19,22 @@
         android:theme="@style/Theme.Proyecto1_Das"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <service
+            android:name=".ServicioFirebase"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <activity
-            android:name=".Perfil"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ListaTitulos"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Registro"
             android:exported="false" />
         <activity
             android:name=".PedirCitas"
@@ -40,7 +52,7 @@
             android:name=".Titulos"
             android:exported="false" />
         <activity
-            android:name=".Registro"
+            android:name=".Perfil"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

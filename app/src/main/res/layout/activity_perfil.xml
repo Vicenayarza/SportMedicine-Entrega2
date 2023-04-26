@@ -5,65 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Perfil">
+    <Button
+        android:id="@+id/btnCamara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="14dp"
+        android:backgroundTint="#33FF86"
+        android:onClick="activarCamara"
+        android:text="btnCamara"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/btnEnviarImg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenCamara" />
 
     <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imagenCamara"
+        android:layout_width="301dp"
+        android:layout_height="393dp"
+        android:layout_marginTop="131dp"
+        android:layout_marginBottom="137dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.092"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.542" />
 
-    <TextView
-        android:id="@+id/nombre_label"
-        android:layout_width="146dp"
-        android:layout_height="37dp"
-        android:text="Nombre:"
-        tools:layout_editor_absoluteX="14dp"
-        tools:layout_editor_absoluteY="230dp" />
-
-    <TextView
-        android:id="@+id/direccion_label"
+    <Button
+        android:id="@+id/btnEnviarImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dirección:"
-        tools:layout_editor_absoluteX="215dp"
-        tools:layout_editor_absoluteY="295dp" />
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#33FF86"
+        android:onClick="VerImagenSubida"
+        android:text="btnEnviarImg"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCamara" />
 
-    <TextView
-        android:id="@+id/telefono_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Teléfono:"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="295dp" />
-
-    <EditText
-        android:id="@+id/nombre_edit"
-        android:layout_width="340dp"
-        android:layout_height="48dp"
-        android:hint="Introduce tu nombre"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="341dp" />
-
-    <EditText
-        android:id="@+id/direccion_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Introduce tu dirección"
-        android:minHeight="48dp"
-        tools:layout_editor_absoluteX="-58dp"
-        tools:layout_editor_absoluteY="495dp" />
-
-    <EditText
-        android:id="@+id/telefono_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Introduce tu teléfono"
-        tools:layout_editor_absoluteX="-51dp"
-        tools:layout_editor_absoluteY="419dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

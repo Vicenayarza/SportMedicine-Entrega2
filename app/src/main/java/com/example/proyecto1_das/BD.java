@@ -139,7 +139,7 @@ public class BD extends Worker{
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", "application/json");
                 JSONObject paramJson = new JSONObject();
-                paramJson.put("parametro","comprobar");
+                paramJson.put("parametro","registrado");
                 paramJson.put("usuario", usuario);
                 paramJson.put("contrasena",contrasena);
 
