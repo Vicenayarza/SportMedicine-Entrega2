@@ -22,7 +22,7 @@
             android:name=".ListaTitulos"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Registro"
             android:exported="false" />
         <activity
             android:name=".PedirCitas"
@@ -40,7 +40,7 @@
             android:name=".Titulos"
             android:exported="false" />
         <activity
-            android:name=".Registro"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

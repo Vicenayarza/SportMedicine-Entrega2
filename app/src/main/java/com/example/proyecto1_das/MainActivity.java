@@ -5,6 +5,10 @@ import static android.Manifest.permission.POST_NOTIFICATIONS;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,11 +25,11 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
 
     public EditText et_usuario, et_password;
-    BaseDatos bdd;
 
 
     @Override
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         String[]{POST_NOTIFICATIONS}, 11);
             }
         }
-        bdd= new BaseDatos(this,"bd_usuarios",null,2);
+
         et_usuario = (EditText) findViewById(R.id.et_usuario);
         et_password = (EditText) findViewById(R.id.et_password);
 
@@ -69,50 +73,73 @@ public class MainActivity extends AppCompatActivity {
         String usuario, password;
         usuario = et_usuario.getText().toString();
         password = et_password.getText().toString();
-        Cursor usuarioEncontrado = bdd.obtenerUsuarioPorEmailPassword(usuario,password);
-        if(usuarioEncontrado != null){
-            //Para el caso de que el email y contraseña ingresados sean correctos
-            //Obteniendo el valor del email almacenadoe en la BDD
-            String emailBdd = usuarioEncontrado.getString(0).toString();
-            //Obteniendo el valor del email almacenadoe en la BDD
-            String nombreBdd=usuarioEncontrado.getString(2).toString();
+        validarUsuario(usuario,password);
 
-            //mostramos la bienvenida
-            Toast.makeText(getApplicationContext(), "" +nombreBdd, Toast.LENGTH_LONG).show();
-
-
-            //creando un objeto para manejar la ventana del menu
-            Intent intent = new Intent(getApplicationContext(),MenuInicio.class);
-            intent.putExtra("emailBdd", emailBdd); //pasando el mail como parametro
-            intent.putExtra("nombreBdd", nombreBdd);//pasando el nombre como parametro
-            //abrir el activity del menu de opciones
-            startActivity(intent);
-            finish();
-
-        }else{
-            //para el caso de que el usuarioEncontrado sea nulo se muestra un mensaje informativo al usuario
-
-            et_password.setText(""); //limpiamos el campo de la contraseña
-            //Lanzamos una alerta que nos de la posibilidad de registrarnos o volver a intentarlo
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.no_cuenta);
-            builder.setMessage(usuario + getResources().getString(R.string.no_cuenta_mensaje));
-            builder.setNegativeButton(R.string.reintentar, (dialog, which) -> {
-
-            });
-            builder.setPositiveButton(R.string.registro, (dialog, which) -> {
-                // Si pulsas registrar te lleva a la ventana de registro
-                Intent intent = new Intent(this, Registro.class);
-                startActivity(intent);
-            });
-            builder.show();
-        }
     }
     //Metodo para el boton de Registro, nos conduce al formulario
     public void buttonRegistro(View view) {
         Intent intent = new Intent(this, Registro.class);
        // Intent intent = new Intent(this, MenuInicio.class);
         startActivity(intent);
+    }
+    public void validarUsuario(String usuario,String contra){
+
+        String[] keys =  new String[3];
+        Object[] parametros = new String[3];
+        keys[0] = "parametros";
+        keys[1] = "usuario";
+        keys[2] = "contrasena";
+
+        parametros[0] = "registrado";
+        parametros[1] = usuario;
+        parametros[2] = contra;
+
+        Data param = BD.createParam(keys, parametros);
+        OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(BD.class).setInputData(param).build();
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(oneTimeWorkRequest.getId())
+                .observe(this, workInfo -> {
+                    if (workInfo != null && workInfo.getState().isFinished()) {
+                        if (workInfo.getState() != WorkInfo.State.SUCCEEDED) {
+                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+
+                        }
+                        else{
+
+                            Data d = workInfo.getOutputData();
+                            boolean b = d.getBoolean("existe",false);
+                            if(b){
+                                Toast.makeText(getApplicationContext(), "existe un usuario", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(),MenuInicio.class);
+                                intent.putExtra("usuario",usuario); //pasando el mail como parametro
+                                //abrir el activity del menu de opciones
+                                startActivity(intent);
+                                finish();
+                            }
+                            else {
+                                et_password.setText(""); //limpiamos el campo de la contraseña
+                                //Lanzamos una alerta que nos de la posibilidad de registrarnos o volver a intentarlo
+                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                                builder.setTitle(R.string.no_cuenta);
+                                builder.setMessage(usuario + getResources().getString(R.string.no_cuenta_mensaje));
+                                builder.setNegativeButton(R.string.reintentar, (dialog, which) -> {
+
+                                });
+                                builder.setPositiveButton(R.string.registro, (dialog, which) -> {
+                                    // Si pulsas registrar te lleva a la ventana de registro
+                                    Intent intent = new Intent(this, Registro.class);
+                                    startActivity(intent);
+                                });
+                                builder.show();
+
+
+                            }
+
+                        }
+                    }
+
+                });
+
+        WorkManager.getInstance(this).enqueue(oneTimeWorkRequest);
     }
 
 }

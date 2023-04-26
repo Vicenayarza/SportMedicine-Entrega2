@@ -180,7 +180,7 @@ public class Registro extends AppCompatActivity {
 
     }
     public void comprobar(String usuario,String contra,String nombres,String apellidos,String telefono){
-        AtomicBoolean resultado= new AtomicBoolean(true);
+
         String[] keys =  new String[2];
         Object[] parametros = new String[2];
         keys[0] = "parametros";
