@@ -3,71 +3,33 @@ package com.example.proyecto1_das;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-    private String email;
-    private String password;
-    private String nombre;
-    private String apellido;
-    private String fec_nac;
-    private String telefono;
+    private String usuario;
+    private String url;
 
-    public Usuario(String email, String password, String nombre, String apellido, String fec_nac, String telefono) {
-        this.email = email;
-        this.password = password;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.fec_nac = fec_nac;
-        this.telefono = telefono;
+
+    public Usuario(String email, String url) {
+        this.usuario = usuario;
+        this.url = url;
+
     }
 
     public Usuario() {
     }
 
 
-    public String getEmail() {
-        return email;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUrl() {
+        return url;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public String getNombre() {
-        return nombre;
-    }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getFec_nac() {
-        return fec_nac;
-    }
-
-    public void setFec_nac(String fec_nac) {
-        this.fec_nac = fec_nac;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 }

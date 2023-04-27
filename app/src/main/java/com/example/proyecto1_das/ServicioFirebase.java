@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -18,13 +19,13 @@ public class ServicioFirebase extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(@NonNull String token) {
-        super.onNewToken(token);
+        Log.d("fcm", "Refreshed token: " + token);
+        FirebaseMessaging.getInstance().subscribeToTopic("ALERTS");
     }
 
     //Cuando se recibe el mensaje se compueba si es una Notificacion, si se trata de una notificacion se recogen los datos y creamos la
     //notificacion que se verá en el móvil.
     public void onMessageReceived (RemoteMessage remoteMessage){
-        super.onMessageReceived(remoteMessage);
 
         if (remoteMessage.getData().size() > 0){
             Log.d("Prueba_Mensaje", "El mensaje en el if es --> " + remoteMessage.getData());
@@ -37,14 +38,15 @@ public class ServicioFirebase extends FirebaseMessagingService {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 NotificationChannel elCanal = new NotificationChannel("id_canal", "Mensajeria_FCM", NotificationManager.IMPORTANCE_DEFAULT);
                 elManager.createNotificationChannel(elCanal);
+                elBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+                        .setContentTitle(remoteMessage.getNotification().getTitle()) //Titulo del mensaje FCM
+                        .setContentText(remoteMessage.getNotification().getBody()) //Cuerpo del mensaje FCM
+                        .setVibrate(new long[] {0, 1000, 500, 1000})
+                        .setAutoCancel(false);
+                elManager.notify(1, elBuilder.build());
             }
 
-            elBuilder.setSmallIcon(android.R.drawable.arrow_down_float)
-                    .setContentTitle(remoteMessage.getNotification().getTitle()) //Titulo del mensaje FCM
-                    .setContentText(remoteMessage.getNotification().getBody()) //Cuerpo del mensaje FCM
-                    .setVibrate(new long[] {0, 1000, 500, 1000})
-                    .setAutoCancel(false);
-            elManager.notify(1, elBuilder.build());
+
         }
     }
 }

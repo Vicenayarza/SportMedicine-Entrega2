@@ -31,7 +31,7 @@ public class FirebaseNotificacion extends Worker {
         Log.d("Prueba_Java", "Token --> " + token);
 
         //Se conecta con el servidor
-        String direccion = "http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/vayarza001/WEB/firebase.php";
+        String direccion = "http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/vayarza001/WEB/Firebase.php";
         HttpURLConnection urlConnection = null;
         try {
             URL destino = new URL(direccion);
