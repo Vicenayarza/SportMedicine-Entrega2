@@ -2,14 +2,14 @@ package com.example.proyecto1_das;
 
 public class Cita implements java.io.Serializable{
 
-    private String email;
+    private String usuario;
     private String tipo;
     private String fecha;
 
 
 
-    public Cita(String email, String tipo, String fecha) {
-        this.email = email;
+    public Cita(String usuario, String tipo, String fecha) {
+        this.usuario = usuario;
         this.tipo = tipo;
         this.fecha = fecha;
 
@@ -33,12 +33,12 @@ public class Cita implements java.io.Serializable{
         this.fecha = fecha;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
 

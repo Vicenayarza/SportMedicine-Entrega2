@@ -47,7 +47,7 @@ public class PedirCitas extends AppCompatActivity {
     public TextView textViewType, textViewDate, textViewTime;
     ArrayList<String> spinnerArray;
     BaseDatos bdd;
-    String emailBdd;
+    String usuarioBdd;
     String nombreBdd;
     private Calendar calendar;
     private TextView selectedDateTextView;
@@ -71,7 +71,7 @@ public class PedirCitas extends AppCompatActivity {
         if (parametrosExtra != null){
             try {
                 //usamos las variables declaradas
-                emailBdd = parametrosExtra.getString("emailBdd");
+
                 nombreBdd = parametrosExtra.getString("nombreBdd");
             }catch (Exception ex){//ex recibe el tipo de error
                 Toast.makeText(getApplicationContext(), "Error al procesar la solicitud "+ex.toString(),
@@ -101,8 +101,8 @@ public class PedirCitas extends AppCompatActivity {
                     boolean resultado = insertDate();
                     if (resultado) {
                         Intent intent = new Intent(this, MenuInicio.class); //volvemos al menu inicio
-                        intent.putExtra("emailBdd", emailBdd);
-                        intent.putExtra("nombreBdd", nombreBdd);
+                        intent.putExtra("usuarioBdd", usuarioBdd);
+
                         startActivity(intent);
                         Toast.makeText(this, getResources().getString(R.string.citaOk), Toast.LENGTH_SHORT).show();// lanzamos mensaje de confirmación
                         createNotificationChannel(); //creamos el canal de la notificacion
@@ -113,7 +113,7 @@ public class PedirCitas extends AppCompatActivity {
                     } else {
                         Toast.makeText(this,getResources().getString(R.string.citaocupada) , Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, MenuInicio.class); //volvemos al menu inicio
-                        intent.putExtra("emailBdd", emailBdd);
+                        intent.putExtra("usuarioBdd", usuarioBdd);
                         intent.putExtra("nombreBdd", nombreBdd);
                         startActivity(intent);
                         finish();
@@ -133,7 +133,7 @@ public class PedirCitas extends AppCompatActivity {
 
         String type = spinnerType.getSelectedItem().toString();
         String date = selectedDateTextView.getText().toString() + " " + spinnerTime.getSelectedItem().toString();
-        boolean id =  bdd.agregarCita(emailBdd, type, date);
+        boolean id =  bdd.agregarCita(usuarioBdd, type, date);
         bdd.close();
         finish();
 
@@ -292,8 +292,8 @@ public class PedirCitas extends AppCompatActivity {
     }
     public void cerrarPantalla(View vista){ //metodo para cerrar
         Intent intent=new Intent(getApplicationContext(),MenuInicio.class);
-        intent.putExtra("emailBdd", emailBdd);
-        intent.putExtra("nombreBdd", nombreBdd);
+        intent.putExtra("usuarioBdd", usuarioBdd);
+        //intent.putExtra("nombreBdd", nombreBdd);
         startActivity(intent); //solicitamos que habra el menu
         finish(); //cerrando la activity
 

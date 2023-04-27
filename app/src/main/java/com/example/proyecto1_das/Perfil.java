@@ -62,6 +62,7 @@ public class Perfil extends AppCompatActivity {
     ImageView selectedImage;
     Button cameraBtn, galleryBtn, volver;
     String currentPhotoPath;
+    String usuarioBdd;
     StorageReference storageReference;
 
     String token;
@@ -78,6 +79,18 @@ public class Perfil extends AppCompatActivity {
         galleryBtn = findViewById(R.id.galeriabt);
         volver = findViewById(R.id.button12);
         storageReference = FirebaseStorage.getInstance().getReference();
+        Bundle parametrosExtra = getIntent().getExtras();
+        if (parametrosExtra != null){
+            try {
+                //usamos las variables declaradas
+
+                usuarioBdd = parametrosExtra.getString("usuarioBdd");
+
+            }catch (Exception ex){//ex recibe el tipo de error
+                Toast.makeText(getApplicationContext(), "Error al procesar la solicitud "+ex.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -107,12 +120,13 @@ public class Perfil extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(view.getContext(), MenuInicio.class);
+                intent.putExtra("usuarioBdd", usuarioBdd);
                 startActivity(intent);
             }
         });
 
     }
-
+//Permisos para la camara
     private void askCameraPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
@@ -142,7 +156,7 @@ public class Perfil extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 File f = new File(currentPhotoPath);
                 selectedImage.setImageURI(Uri.fromFile(f));
-                Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
+                Log.d("tag", " Url of Image is " + Uri.fromFile(f));
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
@@ -192,12 +206,9 @@ public class Perfil extends AppCompatActivity {
                                         // Conseguir el token
                                         token = task.getResult();
 
-                                        // Log and toast
                                         Log.d("fcm", "El token del dispositivo: " + token);
-                                        // Despues de obtener el token se manda un POST a un PHP con el token para que el PHP se lo mande a Firebase y finalmente se mande una notificacion al dispositivo
-                                        // para agradecer al usuario que haya fotografiado el logo de la universidad
 
-                                        // Se realiza la identificacion
+
                                         Data data = new Data.Builder()
                                                 .putString("token", token).build();
                                         OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(FirebaseNotificacion.class)

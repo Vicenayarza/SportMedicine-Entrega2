@@ -23,15 +23,15 @@ public class ServicioFirebase extends FirebaseMessagingService {
         FirebaseMessaging.getInstance().subscribeToTopic("ALERTS");
     }
 
-    //Cuando se recibe el mensaje se compueba si es una Notificacion, si se trata de una notificacion se recogen los datos y creamos la
-    //notificacion que se verá en el móvil.
+
+    //notificacion que se verá en el móvil
     public void onMessageReceived (RemoteMessage remoteMessage){
 
         if (remoteMessage.getData().size() > 0){
-            Log.d("Prueba_Mensaje", "El mensaje en el if es --> " + remoteMessage.getData());
+            Log.d("Prueba_Mensaje", "El mensaje 1 --> " + remoteMessage.getData());
         }
         if (remoteMessage.getNotification() != null){
-            Log.d("Prueba_Mensaje", "El mensaje es --> " + remoteMessage.getNotification().getBody());
+            Log.d("Prueba_Mensaje", "El mensaje 2 --> " + remoteMessage.getNotification().getBody());
 
             NotificationManager elManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationCompat.Builder elBuilder = new NotificationCompat.Builder(ServicioFirebase.this, "id_canal");

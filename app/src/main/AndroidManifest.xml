@@ -28,7 +28,7 @@
             </intent-filter>
         </service>
         <activity
-            android:name=".MainActivity"
+            android:name=".Perfil"
             android:exported="false" />
         <activity
             android:name=".ListaTitulos"
@@ -52,7 +52,7 @@
             android:name=".Titulos"
             android:exported="false" />
         <activity
-            android:name=".Perfil"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,6 +60,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.android.Proyecto1_Das.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
     </application>
 
 </manifest>

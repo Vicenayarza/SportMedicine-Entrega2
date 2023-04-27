@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SportMedicineCastro</string>
-    <string name="mail">Email</string>
+    <string name="mail">User</string>
     <string name="contraseña">password</string>
     <string name="lenguaje">Change to spanish</string>
     <string name="titulaciones">Degees</string>
@@ -13,7 +13,7 @@
     <string name="registro">Sign up</string>
 
 
-    <string name="error_email">Enter a valid email</string>
+    <string name="error_email">Enter a valid user</string>
     <string name="error_contraseña">enter a valid password \nMinimum 6 characters</string>
     <string name="error_nombre">Please enter a valid name</string>
     <string name="error_año">Please enter a valid date\nDate must be Day/Month/Year </string>

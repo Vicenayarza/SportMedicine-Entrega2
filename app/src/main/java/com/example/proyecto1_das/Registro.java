@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Registro extends AppCompatActivity {
 
     public EditText et_nombre,et_apellido, et_usuario, et_contraseña, et_contraseña2, et_telefono;
-   // BaseDatos bdd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,7 @@ public class Registro extends AppCompatActivity {
             }
         }
     }
-//Utilizamos un fragment para la eleccion de la fecha de nacimiento
+
 
 
 //Método para comprobar los nombres y apellidos
@@ -139,6 +139,7 @@ public class Registro extends AppCompatActivity {
         }
         return false;
     }
+    //metodo para añadir usuario en la base de datos remota
     public void añadirusuario(String usuario,String contra,String nombres,String apellidos,String telefono){
         String[] keys =  new String[6];
         Object[] parametros = new String[6];
@@ -179,6 +180,7 @@ public class Registro extends AppCompatActivity {
 
 
     }
+    //metodo para comprobar si existe ya un usuario con ese nombre
     public void comprobar(String usuario,String contra,String nombres,String apellidos,String telefono){
 
         String[] keys =  new String[2];

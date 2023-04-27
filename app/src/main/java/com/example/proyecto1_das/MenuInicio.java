@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class MenuInicio extends AppCompatActivity {
     public TextView textViewNombre;
-    String nombreBdd, emailBdd;
+    String  usuarioBdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +25,8 @@ public class MenuInicio extends AppCompatActivity {
         if (parametrosExtra != null){
             try {
                 //usamos las variables declaradas
-                nombreBdd = parametrosExtra.getString("nombreBdd");
-                emailBdd = parametrosExtra.getString("emailBdd");
+
+                usuarioBdd = parametrosExtra.getString("usuarioBdd");
 
             }catch (Exception ex){//ex recibe el tipo de error
                 Toast.makeText(getApplicationContext(), "Error al procesar la solicitud "+ex.toString(),
@@ -36,7 +36,7 @@ public class MenuInicio extends AppCompatActivity {
 
         textViewNombre = findViewById(R.id.textViewNombre);
 
-        textViewNombre.setText(getResources().getString(R.string.saludo) +""+ nombreBdd);
+        textViewNombre.setText(getResources().getString(R.string.saludo) +""+ usuarioBdd);
 
 
     }
@@ -51,23 +51,30 @@ public class MenuInicio extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.item1:
                 Intent intent=new Intent(getApplicationContext(),MenuInicio.class);
-                intent.putExtra("emailBdd", emailBdd);
-                intent.putExtra("nombreBdd", nombreBdd);
-                startActivity(intent); //solicitamos que habra el menu
+                intent.putExtra("usuarioBdd", usuarioBdd);
+
+                startActivity(intent); //solicitamos que abra el menu
                 finish(); //cerrando la activity
                 return true;
             case R.id.item2:
+                Intent intentt=new Intent(getApplicationContext(),Perfil.class);
+                intentt.putExtra("usuarioBdd", usuarioBdd);
 
+                startActivity(intentt); //solicitamos que abra el menu
+                finish(); //cerrando la activity
                 return true;
+
+
             case R.id.item3:
-                SharedPreferences sharedPref = this.getSharedPreferences("correo_electronico", Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = this.getSharedPreferences("usuario", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.clear();
                 editor.apply();
 
-                Intent intentt = new Intent(this, MainActivity.class);
+                Intent intenttt = new Intent(this, MainActivity.class);
+                intenttt.putExtra("usuarioBdd", usuarioBdd);
 
-                startActivity(intentt);
+                startActivity(intenttt);
                 finish();
                 return true;
             default:
@@ -77,23 +84,23 @@ public class MenuInicio extends AppCompatActivity {
     //Dirigirnos a la ventana de citar
     public void buttonCitar(View view) {
         Intent intent = new Intent(this, PedirCitas.class);
-        intent.putExtra("emailBdd", emailBdd);
-        intent.putExtra("nombreBdd", nombreBdd);
+        intent.putExtra("usuarioBdd", usuarioBdd);
+        //intent.putExtra("nombreBdd", nombreBdd);
         startActivity(intent);
         finish();
     }
     //Dirigirnos a la ventana de ver mis citas, para poder cancelarlas
     public void buttonCancelar(View view) {
         Intent intent = new Intent(this, MisCitas.class);
-        intent.putExtra("emailBdd", emailBdd);
-        intent.putExtra("nombreBdd", nombreBdd);
+        intent.putExtra("usuarioBdd", usuarioBdd);
+        //intent.putExtra("nombreBdd", nombreBdd);
         startActivity(intent);
         finish();
 
     }
     // Método que dirige a salir de la sesion
     public void buttonSalir(View view) {
-        SharedPreferences sharedPref = this.getSharedPreferences("correo_electronico", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences("usuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.clear();
         editor.apply();
@@ -107,8 +114,8 @@ public class MenuInicio extends AppCompatActivity {
     // Método que dirige a la información del Servicio de Medicina
     public void buttonConocenos(View view) {
         Intent intent = new Intent(this, Info.class) ;
-        intent.putExtra("emailBdd", emailBdd);
-        intent.putExtra("nombreBdd", nombreBdd);
+        intent.putExtra("usuarioBdd", usuarioBdd);
+       // intent.putExtra("nombreBdd", nombreBdd);
         startActivity(intent);
         finish();
     }

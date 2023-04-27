@@ -28,7 +28,7 @@ public class MisCitas extends AppCompatActivity {
     public Button buttonCancelDate;
     ArrayList<String> listaCitas;
     ArrayList<Cita> citasList;
-    String emailBdd;
+    String usuarioBdd;
     String nombreBdd;
     String datee;
     BaseDatos bdd;
@@ -47,15 +47,15 @@ public class MisCitas extends AppCompatActivity {
         if (parametrosExtra != null){
             try {
                 //usamos las variables declaradas
-                emailBdd = parametrosExtra.getString("emailBdd");
-                nombreBdd = parametrosExtra.getString("nombreBdd");
+                usuarioBdd = parametrosExtra.getString("usuarioBdd");
+
 
             }catch (Exception ex){//ex recibe el tipo de error
                 Toast.makeText(getApplicationContext(), "Error al procesar la solicitud "+ex.toString(),
                         Toast.LENGTH_LONG).show();
             }
         }
-//Cargamos las citas que tiene un email en su base de datos, mostrando el botón de cacelarlas siempre que haya
+//Cargamos las citas que tiene un usuario en su base de datos, mostrando el botón de cacelarlas siempre que haya
         if (checkDates()) {
             fillDates();
             ArrayAdapter<String> adaptador = new ArrayAdapter<>(
@@ -122,7 +122,7 @@ public class MisCitas extends AppCompatActivity {
     private boolean checkDates() {
         boolean b = false;
         try{
-            citasList=bdd.obtenerCita(emailBdd);
+            citasList=bdd.obtenerCita(usuarioBdd);
             if(citasList!=null || citasList.isEmpty()){
                 b=true;
             }
@@ -154,13 +154,13 @@ public class MisCitas extends AppCompatActivity {
         builder.setPositiveButton(R.string.confirmar, (dialog, which) -> {
 
             try {
-                //eliminamos de la base de dtaos la cita asociada a un email
-                bdd.eliminarCita(datee ,emailBdd);
+                //eliminamos de la base de dtaos la cita asociada a un usuario
+                bdd.eliminarCita(datee ,usuarioBdd);
                 Toast.makeText(getApplicationContext(),"La cita fue cancelada", Toast.LENGTH_LONG).show();
                 spinnerSelectDate.setSelection(0);
                 Intent intent = getIntent();
-                intent.putExtra("emailBdd", emailBdd);
-                intent.putExtra("nombreBdd", nombreBdd);
+                intent.putExtra("usuarioBdd", usuarioBdd);
+
                 startActivity(intent);
                 bdd.close();
                 finish();
@@ -172,8 +172,8 @@ public class MisCitas extends AppCompatActivity {
     }
     public void cerrarPantalla(View vista){ //metodo para cerrar
         Intent intent=new Intent(getApplicationContext(),MenuInicio.class);
-        intent.putExtra("emailBdd", emailBdd);
-        intent.putExtra("nombreBdd", nombreBdd);
+        intent.putExtra("usuarioBdd", usuarioBdd);
+
         startActivity(intent); //solicitamos que habra el menu
         finish(); //cerrando la activity
 

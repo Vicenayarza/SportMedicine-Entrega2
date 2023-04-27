@@ -18,8 +18,8 @@ public class BaseDatos extends SQLiteOpenHelper {
     private static final String tablaUsuario = "create table usuario(usuario text unique primary key," +
             "url text)";
 
-    private static final String tablaCita = "create table cita(email text ," +
-            "tipo text, fecha_cita text ,primary key(email,fecha_cita),foreign key (email) references usuario (id_email))";
+    private static final String tablaCita = "create table cita(usuario text ," +
+            "tipo text, fecha_cita text ,primary key(usuario,fecha_cita))";
     public BaseDatos(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -38,46 +38,25 @@ public class BaseDatos extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS cita");//eliminacion de la version anterior de la tabla cita
         db.execSQL(tablaCita); //Ejecucion del codigo para crear la tabla cita con su nueva estructura
     }
-    public void editar( String usuario,String url) {
-        SQLiteDatabase miBdd = getWritableDatabase(); //llamando a la base de datos en el objeto mi Bdd
-        if (miBdd != null) { //validando que la base de datos exista(q no sea nula)
-            miBdd.execSQL("UPDATE " + usuario + " SET url = '" + url + "' WHERE usuario='" + usuario + "'");  //ejecutando la sentencia de insercion de SQL
-            miBdd.close(); //cerrando la conexion a la base de datos.
 
-        }
 
-    }
-    public Cursor obtenerUrl(String usuario){
-        SQLiteDatabase miBdd = getWritableDatabase();
-        Cursor c = miBdd.rawQuery("select " +
-                "url " +
-                "from usuario  " +
-                "where usuario =  '"+usuario+ "';", null);
-        if (c.moveToFirst()) { //metodo movetofirst nueve al primer elemento encontrado si hay el usuario
-            return c; //retornamos los datos encontrados
-        } else {
-            //no se encuentra informacion de usuaio -> no existe o porque el email y password son incorrectos
-            return null; //devuelvo null si no hay
-        }
-    }
- // consultar usuarios por email y password.
 
     //metodo para añadir una cita
-    public boolean agregarCita(String email, String tipo, String fecha_cita) {
+    public boolean agregarCita(String usuario, String tipo, String fecha_cita) {
         SQLiteDatabase miBdd = getWritableDatabase(); //llamando a la base de datos en el objeto mi Ddd
         if (miBdd != null) { //validando que la base de datos exista(q no sea nula)
             boolean hay=buscarCita(fecha_cita);
             if (!hay) {
-                miBdd.execSQL("insert into cita(email, tipo, fecha_cita) " +
-                        "values('" + email + "','" + tipo + "','" + fecha_cita + "')");    //ejecutando la sentencia de insercion de SQL
+                miBdd.execSQL("insert into cita(usuario, tipo, fecha_cita) " +
+                        "values('" + usuario + "','" + tipo + "','" + fecha_cita + "')");    //ejecutando la sentencia de insercion de SQL
                 miBdd.close(); //cerrando la conexion a la base de datos.
                 return true; // valor de retorno si se inserto exitosamente.
             }
         }
         return false; //retorno cuando no existe la BDD
     }
-    //método para obtener las citas asociadas a un mail
-    public ArrayList<Cita> obtenerCita(String email){
+    //método para obtener las citas asociadas a un usuario
+    public ArrayList<Cita> obtenerCita(String usuario){
         SQLiteDatabase miBdd = getWritableDatabase(); // llamado a la base de datos
         ArrayList<Cita> citas = new ArrayList<>();
 
@@ -85,22 +64,22 @@ public class BaseDatos extends SQLiteOpenHelper {
         Cursor c= miBdd.rawQuery("select " +
                 "tipo , fecha_cita " +
                 "from cita  " +
-                "where email =  '"+email+ "';", null);
+                "where usuario =  '"+usuario+ "';", null);
         //validar si existe o no la consulta
         while (c.moveToNext()) {
             String tipo = c.getString(0);
             String fecha = c.getString(1);
-            Cita cita = new Cita(email,tipo, fecha);
+            Cita cita = new Cita(usuario,tipo, fecha);
             citas.add(cita);
         }
         miBdd.close();
         return citas;
     }
     //metodo para eliminar una cita de la base de datos
-    public void eliminarCita(String fecha, String mail) {
+    public void eliminarCita(String fecha, String usuario) {
         SQLiteDatabase miBdd = getWritableDatabase(); // objeto para manejar la base de datos
         if (miBdd != null) { //validando que la bdd realmente exista
-            miBdd.execSQL("DELETE FROM cita WHERE fecha_cita='" + fecha + "' AND email='" + mail + "'"); //ejecucion de la sentencia Sql para eliminar
+            miBdd.execSQL("DELETE FROM cita WHERE fecha_cita='" + fecha + "' AND usuario='" + usuario + "'"); //ejecucion de la sentencia Sql para eliminar
             miBdd.close();
 
         }

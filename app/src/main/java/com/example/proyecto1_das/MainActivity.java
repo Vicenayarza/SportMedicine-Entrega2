@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     //Metodo para el boton de Registro, nos conduce al formulario
     public void buttonRegistro(View view) {
         Intent intent = new Intent(this, Registro.class);
-       // Intent intent = new Intent(this, MenuInicio.class);
+
         startActivity(intent);
     }
     public void validarUsuario(String usuario,String contra){
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             if(b){
                                 Toast.makeText(getApplicationContext(), "existe un usuario", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(),MenuInicio.class);
-                                intent.putExtra("usuario",usuario); //pasando el mail como parametro
+                                intent.putExtra("usuarioBdd",usuario); //pasando el usuario como parametro
                                 //abrir el activity del menu de opciones
                                 startActivity(intent);
                                 finish();
